@@ -44,7 +44,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHold
         //Picasso.with(mainContext).setIndicatorsEnabled(true);
         Picasso.with(mainContext)
                 .load(artist.getCover().getSmall())
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.artist)
                 .into(holder.cover);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

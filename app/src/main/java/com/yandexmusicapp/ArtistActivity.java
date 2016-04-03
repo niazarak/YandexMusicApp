@@ -32,13 +32,15 @@ public class ArtistActivity extends AppCompatActivity {
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        artist = (Artist) getIntent().getExtras().getSerializable("ARTIST");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        artist = (Artist) getIntent().getExtras().getSerializable("ARTIST");
 
         collapsing = (CollapsingToolbarLayout) findViewById(R.id.collapsing);
         collapsing.setTitle(artist.getName());
@@ -51,9 +53,11 @@ public class ArtistActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
         mainCover = (ImageView) findViewById(R.id.mainCover);
         mainCover.setMinimumHeight(Resources.getSystem().getDisplayMetrics().widthPixels);
-        Picasso.with(this).load(artist.getCover().getBig()).fit().into(mainCover, new Callback() {
+        Picasso.with(this).load(artist.getCover().getBig()).fit().placeholder(R.drawable.artist).into(mainCover, new Callback() {
             @Override
             public void onSuccess() {
                 Palette.from(((BitmapDrawable) mainCover.getDrawable()).getBitmap()).generate(new Palette.PaletteAsyncListener() {

@@ -16,7 +16,9 @@ public class ServiceGenerator {
                     .addConverterFactory(GsonConverterFactory.create());
 
     public static <S> S createService(Class<S> serviceClass) {
-        Retrofit retrofit = builder.client(httpClient.build()).build();
+        OkHttpClient.Builder client = new OkHttpClient.Builder();
+        client.addInterceptor(new LogJsonInterceptor());
+        Retrofit retrofit = builder.client(client.build()).build();
         return retrofit.create(serviceClass);
     }
 }
