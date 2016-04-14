@@ -1,11 +1,17 @@
 package com.yandexmusicapp;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -27,20 +33,25 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
-    public static final String TAG = "MAIN ACTIVITY";
+    public static final String TAG = "MAIN ACTIVITY"; // для логов
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView artistsList;
+    SearchView searchView;
+    MenuItem sortItem;
     ArtistAdapter aa;
     YandexApi client;
-    RelativeLayout splash;
-    Call<List<Artist>> call;
+    RelativeLayout splash; // лейаут для пустого экрана (когда артисты не получены) *отныне он называется "сплэш"
+    Call<List<Artist>> call; //объект запроса (его лучше объявлять глобально, чтобы переиспользовать)
     static File cache;
+    ConnectivityManager cm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        cm =(ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        //инициализация пути кэша
         cache = new File(getCacheDir(),"cache.txt");
 
         artistsList = (RecyclerView) findViewById(R.id.artistsView);
@@ -51,54 +62,101 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         splash = (RelativeLayout) findViewById(R.id.splash);
 
-        onRefresh();
+        //см ниже
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
-
+        onRefresh();
 
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                aa.filterArtists(newText.toLowerCase());
+                aa.sortArtists(false);
+                return true;
+            }
+        });
+        sortItem = menu.findItem(R.id.action_sort);
+        sortItem.setIcon(android.R.drawable.ic_menu_sort_alphabetically);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+//        меняем кнопку на противоположную и сортируем
+        if(item.getItemId()==R.id.action_sort){
+            if(aa.sortedAlphabetically) sortItem.setIcon(android.R.drawable.ic_menu_sort_by_size);
+            else sortItem.setIcon(android.R.drawable.ic_menu_sort_alphabetically);
+            aa.sortArtists(true);
+        }
+        return true;
+    }
+
+    // имплементируем onRefresh для swipeRefreshLayout,
+    // чтобы вызывать многократно (иначе объявили бы в инлайне)
+    @Override
     public void onRefresh() {
         client = ServiceGenerator.createService(YandexApi.class);
         call = client.artists();
+        if(searchView!=null) {
+            searchView.setQuery("", true);
+        }
+        // проверять соединение бесполезно, так как его все равно определение происходит
+        // в точности до типа соедниения (чего не достаточно) и вообще, Retrofit
+        // прелоставляет колбеки на все случаи жизни (2)
         call.enqueue(new Callback<List<Artist>>() {
             @Override
             public void onResponse(Call<List<Artist>> call, Response<List<Artist>> response) {
                 splash.setVisibility(View.GONE);
                 aa.setArtists(response.body());
                 artistsList.setAdapter(aa);
+                aa.sortArtists(false);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<List<Artist>> call, Throwable t) {
+                //запрос не удался, но показывать сплэш рано
+                // - сначала нужно проверить, есть ли что-то в кэше
                 splash.setVisibility(View.GONE);
                 String cached = "";
-                Log.d(TAG, "onFailure: FAIL");
                 try {
+                    // создадим ридер по пути кэша (который был инициализирован в onCreate())
+                    //try with resources не работает на старых андройдах (minSdk version 10)
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(MainActivity.cache));
                     String line;
                     while ((line=bufferedReader.readLine())!=null) {
                         cached += line + "\n";
                     }
-                    Log.d(TAG, "onFailure: "+cached.length());
-
                     Gson gson = new Gson();
                     List<Artist> decodedArtists = gson.fromJson(cached,new TypeToken<List<Artist>>(){}.getType());
-                    Log.d(TAG, "onFailure: ARTISTS "+decodedArtists.size());
                     aa.setArtists(decodedArtists);
                     artistsList.setAdapter(aa);
+                    aa.sortArtists(false);
                     Toast.makeText(getApplicationContext(),"Нет подключения к интернету, данные загружены из кэша",Toast.LENGTH_LONG).show();
                 }
                 catch (FileNotFoundException e){
                     Log.d(TAG, "onFailure: NOT FOUND");
+                    //кэш не найден, теперь показываем сплэш
                     splash.setVisibility(View.VISIBLE);
-                    swipeRefreshLayout.setRefreshing(false);
                 }
                 catch (IOException e) {
+                    //тут происходит что-то несуразное и невразумительное, так что
+                    //просто настойчиво попросим наконец включить интернет
                     e.printStackTrace();
-                    swipeRefreshLayout.setRefreshing(false);
+                    Toast.makeText(getApplicationContext(),"Нет подключения к интернету, проверьте соединение",Toast.LENGTH_LONG).show();
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }

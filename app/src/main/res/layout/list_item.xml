@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="150dip"
     android:background="?attr/selectableItemBackground">
@@ -7,7 +8,7 @@
     <ImageView
         android:layout_width="100dip"
         android:layout_height="100dip"
-        android:id="@+id/listCover"
+        android:id="@+id/cover"
         android:layout_margin="25dip" />
 
     <TextView
@@ -15,27 +16,27 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Name"
-        android:id="@+id/listName"
-        android:layout_alignTop="@+id/listCover"
-        android:layout_toRightOf="@+id/listCover"
-        android:layout_toEndOf="@+id/listCover" />
+        android:id="@+id/name"
+        android:layout_alignTop="@id/cover"
+        android:layout_toRightOf="@id/cover"
+        android:layout_toEndOf="@id/cover" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Genres"
-        android:id="@+id/listGenres"
-        android:layout_below="@+id/listName"
-        android:layout_toRightOf="@+id/listCover"
-        android:layout_toEndOf="@+id/listCover" />
+        android:id="@+id/genres"
+        android:layout_below="@id/name"
+        android:layout_toRightOf="@id/cover"
+        android:layout_toEndOf="@id/cover" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Repertoire"
-        android:id="@+id/listRepertoire"
-        android:layout_alignBottom="@+id/listCover"
-        android:layout_toRightOf="@+id/listCover"
-        android:layout_toEndOf="@+id/listCover" />
+        android:id="@+id/repertoire"
+        android:layout_alignBottom="@id/cover"
+        android:layout_toRightOf="@id/cover"
+        android:layout_toEndOf="@id/cover" />
 
 </RelativeLayout>

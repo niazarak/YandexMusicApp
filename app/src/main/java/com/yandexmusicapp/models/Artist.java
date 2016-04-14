@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Artist implements Serializable{
+    //модель артиста для десериализации Gson
+    //доступ к полям через геттеры
 
     @SerializedName("id")
     @Expose
@@ -45,29 +47,11 @@ public class Artist implements Serializable{
 
     /**
      *
-     * @param id
-     * The id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     *
      * @return
      * The name
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     *
-     * @param name
-     * The name
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**
@@ -79,6 +63,7 @@ public class Artist implements Serializable{
         return genres;
     }
 
+    //специальный геттер для вывода жанров артиста через запятую
     public String getImplodedGenres(){
         if(genres.size()==1){
             return genres.get(0);
@@ -95,29 +80,11 @@ public class Artist implements Serializable{
 
     /**
      *
-     * @param genres
-     * The genres
-     */
-    public void setGenres(List<String> genres) {
-        this.genres = genres;
-    }
-
-    /**
-     *
      * @return
      * The tracks
      */
     public Integer getTracks() {
         return tracks;
-    }
-
-    /**
-     *
-     * @param tracks
-     * The tracks
-     */
-    public void setTracks(Integer tracks) {
-        this.tracks = tracks;
     }
 
     /**
@@ -129,15 +96,7 @@ public class Artist implements Serializable{
         return albums;
     }
 
-    /**
-     *
-     * @param albums
-     * The albums
-     */
-    public void setAlbums(Integer albums) {
-        this.albums = albums;
-    }
-
+    //еще один специальный геттер для вывода "репертуара" артиста одной строкой
     public String getRepertoire(){
         return albums+" альбомов, "+tracks+" песен";
     }
@@ -152,29 +111,11 @@ public class Artist implements Serializable{
 
     /**
      *
-     * @param link
-     * The link
-     */
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    /**
-     *
      * @return
      * The description
      */
     public String getDescription() {
         return description;
-    }
-
-    /**
-     *
-     * @param description
-     * The description
-     */
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     /**
@@ -185,14 +126,4 @@ public class Artist implements Serializable{
     public Cover getCover() {
         return cover;
     }
-
-    /**
-     *
-     * @param cover
-     * The cover
-     */
-    public void setCover(Cover cover) {
-        this.cover = cover;
-    }
-
 }

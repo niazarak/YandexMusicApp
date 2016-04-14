@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Cover implements Serializable{
+    //модель обложки артиста для десериализации Gson
+    //доступ к полям через геттеры
+    //ничего особенного
 
     @SerializedName("small")
     @Expose
@@ -25,29 +28,11 @@ public class Cover implements Serializable{
 
     /**
      *
-     * @param small
-     * The small
-     */
-    public void setSmall(String small) {
-        this.small = small;
-    }
-
-    /**
-     *
      * @return
      * The big
      */
     public String getBig() {
         return big;
-    }
-
-    /**
-     *
-     * @param big
-     * The big
-     */
-    public void setBig(String big) {
-        this.big = big;
     }
 
 }

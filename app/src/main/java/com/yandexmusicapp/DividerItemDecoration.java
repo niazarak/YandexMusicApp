@@ -8,14 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
-
+    //так как ресайкл вью не имеет разграничителей итем'ов из коробки (в отличии от листвью), создаем свой
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
     private Drawable mDivider;
 
-    /**
-     * Default divider will be used
-     */
     public DividerItemDecoration(Context context) {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
         mDivider = styledAttributes.getDrawable(0);
