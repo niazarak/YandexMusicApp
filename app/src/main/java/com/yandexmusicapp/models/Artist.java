@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Artist implements Serializable{
-    //модель артиста для десериализации Gson
-    //доступ к полям через геттеры
+    //модель артиста для Gson
 
     @SerializedName("id")
     @Expose

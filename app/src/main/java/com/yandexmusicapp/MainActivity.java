@@ -33,7 +33,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
-    public static final String TAG = "MAIN ACTIVITY"; // для логов
+    public static final String TAG = "MAIN ACTIVITY";
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView artistsList;
     SearchView searchView;
@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         splash = (RelativeLayout) findViewById(R.id.splash);
 
-        //см ниже
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
         onRefresh();
@@ -104,8 +103,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         return true;
     }
 
-    // имплементируем onRefresh для swipeRefreshLayout,
-    // чтобы вызывать многократно (иначе объявили бы в инлайне)
+    // onRefresh для swipeRefreshLayout
     @Override
     public void onRefresh() {
         client = ServiceGenerator.createService(YandexApi.class);
@@ -113,9 +111,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         if(searchView!=null) {
             searchView.setQuery("", true);
         }
-        // проверять соединение бесполезно, так как его все равно определение происходит
-        // в точности до типа соедниения (чего не достаточно) и вообще, Retrofit
-        // прелоставляет колбеки на все случаи жизни (2)
+        // проверять соединение бесполезно
         call.enqueue(new Callback<List<Artist>>() {
             @Override
             public void onResponse(Call<List<Artist>> call, Response<List<Artist>> response) {
@@ -129,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onFailure(Call<List<Artist>> call, Throwable t) {
                 //запрос не удался, но показывать сплэш рано
-                // - сначала нужно проверить, есть ли что-то в кэше
+                // - нужно проверить, есть ли что-то в кэше
                 splash.setVisibility(View.GONE);
                 String cached = "";
                 try {
@@ -153,8 +149,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     splash.setVisibility(View.VISIBLE);
                 }
                 catch (IOException e) {
-                    //тут происходит что-то несуразное и невразумительное, так что
-                    //просто настойчиво попросим наконец включить интернет
+                    //тут происходит что-то несуразное и невразумительное
+                    //просто попросим наконец включить интернет
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(),"Нет подключения к интернету, проверьте соединение",Toast.LENGTH_LONG).show();
                 }

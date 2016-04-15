@@ -18,24 +18,22 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHolder> {
-    //адаптер для ресайклера
 
-    Context mainContext; // он нужен для Picasso
+    Context mainContext; // для Picasso
     ArrayList<Artist> allArtists; // так как механизм фильтрации работает по принципу удаления
-    // ненужных элементов, то изначальные элементы нужно где-то хранить (чтобы было что фильтровать)
-    ArrayList<Artist> filteredArtists; // нужен для вывода результата поиска (фильтрованный allArtists)
+    // ненужных элементов, то изначальные элементы нужно где-то хранить
+    ArrayList<Artist> filteredArtists; // вывода результата поиска (фильтрованный allArtists)
     Boolean sortedAlphabetically; //дадим пользователю всего два списка - сортирован либо по алфавиту,
     // либо по количеству песен (выводить чистый ответ с сервера,
     // в котором артисты находятся в хаотичном порядке - плохой UX)
+
     public ArtistAdapter(Context c){
-        // инициализируем все поля
         this.sortedAlphabetically = true;
         this.allArtists = new ArrayList<>();
         this.filteredArtists = (ArrayList<Artist>) allArtists.clone();
         this.mainContext = c;
     }
 
-    // вспомогательный сеттер для артистов
     public void setArtists(List<Artist> artists){
         this.allArtists = (ArrayList<Artist>) artists;
         this.filteredArtists = (ArrayList<Artist>) allArtists.clone(); // иначе работа с filteredArtists влияет на allArtists
@@ -89,9 +87,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHold
         notifyDataSetChanged();
     }
     public void filterArtists(String query){
-        // метод для поиска
         filteredArtists.clear();
-        // логика довольно тривиальна - приводим запрос и имя артиста в lowercase и, если есть совпадение, выводим
+        // логика тривиальна - приводим запрос и имя артиста в lowercase и, если есть совпадение, выводим
         for (Artist artist: this.allArtists) {
             if(artist.getName().toLowerCase().contains(query)){
                 filteredArtists.add(artist);
@@ -138,7 +135,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHold
         return filteredArtists.size();
     }
 
-    // класс для холдера
     class ArtistHolder extends RecyclerView.ViewHolder{
         ImageView cover;
         TextView name;

@@ -21,7 +21,6 @@ import com.squareup.picasso.Picasso;
 import com.yandexmusicapp.models.Artist;
 
 public class ArtistActivity extends AppCompatActivity {
-    // активити для артиста
 
     ImageView mainCover;
     Artist artist;

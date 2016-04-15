@@ -8,7 +8,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface YandexApi {
-    // описание интерфейса, использующего api
     @GET("/mobilization-2016/artists.json")
-    Call<List<Artist>> artists(); // понятно, надеюсь
+    Call<List<Artist>> artists();
 }
