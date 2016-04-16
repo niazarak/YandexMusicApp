@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Cover implements Serializable{
-    //модель обложки артиста для Gson
 
     @SerializedName("small")
     @Expose

@@ -1,4 +1,4 @@
-package com.yandexmusicapp;
+package com.yandexmusicapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.yandexmusicapp.activities.ArtistActivity;
+import com.yandexmusicapp.R;
 import com.yandexmusicapp.models.Artist;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHold
     ArrayList<Artist> allArtists; // так как механизм фильтрации работает по принципу удаления
     // ненужных элементов, то изначальные элементы нужно где-то хранить
     ArrayList<Artist> filteredArtists; // вывода результата поиска (фильтрованный allArtists)
-    Boolean sortedAlphabetically; //дадим пользователю всего два списка - сортирован либо по алфавиту,
+    public Boolean sortedAlphabetically; //дадим пользователю всего два списка - сортирован либо по алфавиту,
     // либо по количеству песен (выводить чистый ответ с сервера,
     // в котором артисты находятся в хаотичном порядке - плохой UX)
 

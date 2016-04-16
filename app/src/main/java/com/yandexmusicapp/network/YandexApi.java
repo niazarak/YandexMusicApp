@@ -1,4 +1,4 @@
-package com.yandexmusicapp;
+package com.yandexmusicapp.network;
 
 import com.yandexmusicapp.models.Artist;
 

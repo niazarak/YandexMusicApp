@@ -1,4 +1,4 @@
-package com.yandexmusicapp;
+package com.yandexmusicapp.activities;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.yandexmusicapp.R;
 import com.yandexmusicapp.models.Artist;
 
 public class ArtistActivity extends AppCompatActivity {

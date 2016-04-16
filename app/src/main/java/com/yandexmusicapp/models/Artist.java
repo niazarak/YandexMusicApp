@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Artist implements Serializable{
-    //модель артиста для Gson
 
     @SerializedName("id")
     @Expose
@@ -62,16 +61,16 @@ public class Artist implements Serializable{
         return genres;
     }
 
-    //специальный геттер для вывода жанров артиста через запятую
+    // для вывода жанров артиста через запятую
     public String getImplodedGenres(){
         if(genres.size()==1){
             return genres.get(0);
         }
         else {
             String res = "";
-            for (String genre : genres
-                    ) {
-                res += genre + ", ";
+            for(int i=0;i<genres.size();i++){
+                if(i==genres.size()-1) res+=genres.get(i);
+                else res += genres.get(i) + ", ";
             }
             return res;
         }
@@ -95,7 +94,7 @@ public class Artist implements Serializable{
         return albums;
     }
 
-    //еще один специальный геттер для вывода "репертуара" артиста одной строкой
+    //для вывода репертуара артиста одной строкой
     public String getRepertoire(){
         return albums+" альбомов, "+tracks+" песен";
     }

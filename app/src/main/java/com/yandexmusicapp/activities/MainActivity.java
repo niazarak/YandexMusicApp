@@ -1,4 +1,4 @@
-package com.yandexmusicapp;
+package com.yandexmusicapp.activities;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -18,7 +18,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.yandexmusicapp.adapters.decorations.DividerItemDecoration;
+import com.yandexmusicapp.R;
+import com.yandexmusicapp.adapters.ArtistAdapter;
 import com.yandexmusicapp.models.Artist;
+import com.yandexmusicapp.network.ServiceGenerator;
+import com.yandexmusicapp.network.YandexApi;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     YandexApi client;
     RelativeLayout splash; // лейаут для пустого экрана (когда артисты не получены) *отныне он называется "сплэш"
     Call<List<Artist>> call; //объект запроса (его лучше объявлять глобально, чтобы переиспользовать)
-    static File cache;
+    public static File cache;
     ConnectivityManager cm;
 
     @Override

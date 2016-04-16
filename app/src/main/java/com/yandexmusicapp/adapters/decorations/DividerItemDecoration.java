@@ -1,4 +1,4 @@
-package com.yandexmusicapp;
+package com.yandexmusicapp.adapters.decorations;
 
 import android.content.Context;
 import android.content.res.TypedArray;
