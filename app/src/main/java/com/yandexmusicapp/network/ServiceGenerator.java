@@ -1,8 +1,5 @@
 package com.yandexmusicapp.network;
 
-import com.yandexmusicapp.activities.MainActivity;
-
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -11,6 +8,8 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.yandexmusicapp.utils.CacheUtils.setCachedArtists;
 
 public class ServiceGenerator {
     //вспомогательный класс для генерации ретрофит сервиса
@@ -29,19 +28,11 @@ public class ServiceGenerator {
             // но и для занесения в кэш
             @Override
             public Response intercept(Chain chain) throws IOException {
-                // поднятие обработки ошибки наверх имплементировалось само, так было задумано
+                // поднятие обработки ошибки наверх имплементировалось само
                 Response response = chain.proceed(chain.request());
-                String rawJson = "";
-
-                try {
-                    rawJson = response.body().string();
-                    FileOutputStream fileOutputStream = new FileOutputStream(MainActivity.cache);
-                    fileOutputStream.write(rawJson.getBytes());
-                    fileOutputStream.close();
-                } catch (IOException e) {
-                    // для Тоста нужен контекст, которого нет
-                    e.printStackTrace();
-                }
+                String rawJson = response.body().string();
+                //сохраняем
+                setCachedArtists(rawJson);
                 // делаем новый запрос
                 return response.newBuilder()
                         .body(ResponseBody.create(response.body().contentType(), rawJson)).build();

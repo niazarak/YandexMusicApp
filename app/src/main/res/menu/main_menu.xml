@@ -8,7 +8,11 @@
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_sort"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:icon="@android:drawable/ic_lock_silent_mode_off"
         android:title="Sort"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/action_clear"
+        android:title="Clear cache"
+        app:showAsAction="never"/>
 </menu>

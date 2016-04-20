@@ -11,11 +11,11 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     //так как ресайкл вью не имеет разграничителей итем'ов из коробки (в отличии от листвью), создаем свой
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
-    private Drawable mDivider;
+    private Drawable divider;
 
     public DividerItemDecoration(Context context) {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
-        mDivider = styledAttributes.getDrawable(0);
+        divider = styledAttributes.getDrawable(0);
         styledAttributes.recycle();
     }
 
@@ -32,10 +32,10 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
             int top = child.getBottom() + params.bottomMargin;
-            int bottom = top + mDivider.getIntrinsicHeight();
+            int bottom = top + divider.getIntrinsicHeight();
 
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(c);
+            divider.setBounds(left, top, right, bottom);
+            divider.draw(c);
         }
     }
 }

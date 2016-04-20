@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,6 +33,7 @@ public class ArtistActivity extends AppCompatActivity {
     FloatingActionButton fab;
     Toolbar toolbar;
     RelativeLayout relativeLayout;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,10 @@ public class ArtistActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
+
+        position = getIntent().getExtras().getInt("POSITION");
         artist = (Artist) getIntent().getExtras().getSerializable("ARTIST");
 
         collapsing = (CollapsingToolbarLayout) findViewById(R.id.collapsing);
@@ -113,5 +118,15 @@ public class ArtistActivity extends AppCompatActivity {
         repertoire.setText(artist.getRepertoire());
         description = (TextView) relativeLayout.findViewById(R.id.description);
         description.setText(artist.getDescription());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home :{
+                finish();
+            }
+        }
+        return true;
     }
 }

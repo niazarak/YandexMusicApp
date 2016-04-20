@@ -1,5 +1,6 @@
 package com.yandexmusicapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.yandexmusicapp.activities.ArtistActivity;
 import com.yandexmusicapp.R;
+import com.yandexmusicapp.activities.ArtistActivity;
 import com.yandexmusicapp.models.Artist;
 
 import java.util.ArrayList;
@@ -34,6 +35,13 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHold
         this.allArtists = new ArrayList<>();
         this.filteredArtists = (ArrayList<Artist>) allArtists.clone();
         this.mainContext = c;
+    }
+
+    public boolean isEmpty(){
+        return filteredArtists.size() == 0;
+    }
+    public boolean isAbsolutelyEmpty(){
+        return allArtists.size() == 0;
     }
 
     public void setArtists(List<Artist> artists){
@@ -96,7 +104,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHold
                 filteredArtists.add(artist);
             }
         }
-        notifyDataSetChanged();
+        sortArtists(false);
     }
 
     @Override
@@ -126,7 +134,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHold
                 Intent intent = new Intent(v.getContext(),ArtistActivity.class);
                 // передаем в следующий активити выбранного артиста
                 intent.putExtra("ARTIST",artist);
-                v.getContext().startActivity(intent);
+                ((Activity) v.getContext()).startActivityForResult(intent,1);
             }
         });
     }
