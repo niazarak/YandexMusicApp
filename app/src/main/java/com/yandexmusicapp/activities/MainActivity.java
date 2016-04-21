@@ -26,6 +26,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.yandexmusicapp.Application.POSITION;
+import static com.yandexmusicapp.Application.QUERY;
+import static com.yandexmusicapp.Application.SORT;
 import static com.yandexmusicapp.utils.CacheUtils.getCachedArtists;
 import static com.yandexmusicapp.utils.CacheUtils.setCachedArtists;
 
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
-        MenuItem item = menu.findItem(R.id.action_search);
+        MenuItem item = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setIconifiedByDefault(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             searchView.setQuery(currentQuery,false);
             artistsList.getLayoutManager().scrollToPosition(currentPosition);
         }
-        sortItem = menu.findItem(R.id.action_sort);
+        sortItem = menu.findItem(R.id.sort);
         if(aa.sortedAlphabetically) sortItem.setIcon(android.R.drawable.ic_menu_sort_alphabetically) ;
         else sortItem.setIcon(android.R.drawable.ic_menu_sort_by_size);
 
@@ -112,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public boolean onOptionsItemSelected(MenuItem item) {
 //        меняем кнопку на противоположную и сортируем
         switch (item.getItemId()) {
-            case R.id.action_sort: {
+            case R.id.sort: {
                 if (aa.sortedAlphabetically)
                     sortItem.setIcon(android.R.drawable.ic_menu_sort_by_size);
                 else sortItem.setIcon(android.R.drawable.ic_menu_sort_alphabetically);
@@ -120,9 +123,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 currentPosition = 0;
                 break;
             }
-            case R.id.action_clear: {
+            case R.id.clear: {
                 setCachedArtists("");
-                Toast.makeText(MainActivity.this, "Кэш очищен", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.cache_cleared, Toast.LENGTH_SHORT).show();
                 break;
             }
         }
@@ -142,19 +145,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("POSITION",linearLayoutManager.findFirstCompletelyVisibleItemPosition());
-        outState.putBoolean("SORT",aa.sortedAlphabetically);
-        outState.putString("QUERY",currentQuery);
+        outState.putInt(POSITION,linearLayoutManager.findFirstCompletelyVisibleItemPosition());
+        outState.putBoolean(SORT,aa.sortedAlphabetically);
+        outState.putString(QUERY,currentQuery);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        aa.sortedAlphabetically = savedInstanceState.getBoolean("SORT");
-        currentQuery = savedInstanceState.getString("QUERY");
+        aa.sortedAlphabetically = savedInstanceState.getBoolean(SORT);
+        currentQuery = savedInstanceState.getString(QUERY);
         searchArtists();
-        currentPosition = savedInstanceState.getInt("POSITION",0);
+        currentPosition = savedInstanceState.getInt(POSITION,0);
     }
 
     private void initFreshArtists(){
@@ -163,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         call.enqueue(new Callback<List<Artist>>() {
             @Override
             public void onResponse(Call<List<Artist>> call, Response<List<Artist>> response) {
+                Toast.makeText(MainActivity.this, R.string.cache_invalidated, Toast.LENGTH_SHORT).show();
                 emptyCache.setVisibility(View.GONE);
                 aa.setArtists(response.body());
                 artistsList.setAdapter(aa);
@@ -173,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             @Override
             public void onFailure(Call<List<Artist>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Данные не получены", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.cache_cleared, Toast.LENGTH_SHORT).show();
                 //запрос не удался, проверяем, есть ли что-то в кэше
                 initCachedArtists();
                 swipeRefreshLayout.setRefreshing(false);

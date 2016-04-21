@@ -17,7 +17,7 @@ public class Artist implements Serializable{
     private String name;
     @SerializedName("genres")
     @Expose
-    private List<String> genres = new ArrayList<String>();
+    private List<String> genres = new ArrayList<>();
     @SerializedName("tracks")
     @Expose
     private Integer tracks;
@@ -96,7 +96,7 @@ public class Artist implements Serializable{
 
     //для вывода репертуара артиста одной строкой
     public String getRepertoire(){
-        return albums+" альбомов, "+tracks+" песен";
+        return albums+" альбомов * "+tracks+" песен";
     }
     /**
      *

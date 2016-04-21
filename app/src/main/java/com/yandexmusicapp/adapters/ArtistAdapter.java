@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.yandexmusicapp.Application.ARTIST;
+
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHolder> {
 
     Context mainContext; // для Picasso
@@ -133,12 +135,11 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHold
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(),ArtistActivity.class);
                 // передаем в следующий активити выбранного артиста
-                intent.putExtra("ARTIST",artist);
+                intent.putExtra(ARTIST, artist)
                 ((Activity) v.getContext()).startActivityForResult(intent,1);
             }
         });
     }
-
 
     @Override
     public int getItemCount() {

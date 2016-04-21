@@ -2,17 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_search"
-        android:title="@+id/action_search"
+    <item android:id="@+id/search"
+        android:title="@+id/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/action_sort"
-        android:icon="@android:drawable/ic_lock_silent_mode_off"
-        android:title="Sort"
+    <item android:id="@+id/sort"
+        android:title="@string/menu_sort"
         app:showAsAction="always"/>
 
-    <item android:id="@+id/action_clear"
-        android:title="Clear cache"
+    <item android:id="@+id/clear"
+        android:title="@string/menu_clear"
         app:showAsAction="never"/>
 </menu>

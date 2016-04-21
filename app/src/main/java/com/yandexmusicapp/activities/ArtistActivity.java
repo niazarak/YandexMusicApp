@@ -22,6 +22,8 @@ import com.squareup.picasso.Picasso;
 import com.yandexmusicapp.R;
 import com.yandexmusicapp.models.Artist;
 
+import static com.yandexmusicapp.Application.ARTIST;
+
 public class ArtistActivity extends AppCompatActivity {
 
     ImageView mainCover;
@@ -32,8 +34,7 @@ public class ArtistActivity extends AppCompatActivity {
     CollapsingToolbarLayout collapsing;
     FloatingActionButton fab;
     Toolbar toolbar;
-    RelativeLayout relativeLayout;
-    int position;
+     RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +46,7 @@ public class ArtistActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
-        position = getIntent().getExtras().getInt("POSITION");
-        artist = (Artist) getIntent().getExtras().getSerializable("ARTIST");
+        artist = (Artist) getIntent().getExtras().getSerializable(ARTIST);
 
         collapsing = (CollapsingToolbarLayout) findViewById(R.id.collapsing);
         collapsing.setTitle(artist.getName());

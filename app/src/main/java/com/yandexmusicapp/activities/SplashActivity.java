@@ -25,8 +25,15 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        // сплэш скрин
+        // говорят, что это считается антипаттерном
+        // но в данном случае без него трудно было обойтись
         YandexApi client = ServiceGenerator.createService(YandexApi.class);
         Call<List<Artist>> call = client.artists();
+
+        //обновляем кэш
+        // *так как сплэш привязан к запросу на сервер, то он будет почти незаметен
+
         call.enqueue(new Callback<List<Artist>>() {
             @Override
             public void onResponse(Call<List<Artist>> call, Response<List<Artist>> response) {
@@ -37,7 +44,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Artist>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Данные не получены",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),R.string.cache_failed ,Toast.LENGTH_LONG).show();
                 intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
                 finish();

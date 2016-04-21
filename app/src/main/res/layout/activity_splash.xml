@@ -8,7 +8,7 @@
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal|top"
         android:src="@drawable/logo"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="@dimen/splash_logo_top_margin" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleSmall"

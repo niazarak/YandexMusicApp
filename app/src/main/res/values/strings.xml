@@ -2,4 +2,11 @@
     <string name="app_name">YandexMusicApp</string>
     <string name="main_title">Исполнители</string>
     <string name="biography">Биография</string>
+    <string name="menu_clear">Очистить кэш</string>
+    <string name="menu_sort">Сортировать</string>
+    <string name="empty_search">По данному запросу ничего не найдено</string>
+    <string name="empty_cache">Проверьте подключение к интернету и обновите список</string>
+    <string name="cache_failed">Данные не получены</string>
+    <string name="cache_cleared">Кэш очищен</string>
+    <string name="cache_invalidated">Данные получены</string>
 </resources>
