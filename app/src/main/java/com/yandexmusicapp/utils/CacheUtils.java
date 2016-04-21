@@ -6,7 +6,6 @@ import com.yandexmusicapp.models.Artist;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,21 +17,9 @@ public class CacheUtils {
     public static File cache;
 
     public static List<Artist> getCachedArtists() {
-        //читаем файл кэша
-        //try with resources не работает на старых андройдах
-        BufferedReader bufferedReader = null;
+        String cached = null;
         try {
-            bufferedReader = new BufferedReader(new FileReader(cache));
-        } catch (FileNotFoundException e) {
-            //если возникают ошибки, просто возвращаем пустой объект
-            return new ArrayList<Artist>();
-        }
-        String line;
-        String cached ="";
-        try {
-            while ((line=bufferedReader.readLine())!=null) {
-                cached += line + "\n";
-            }
+            cached = getCache();
         } catch (IOException e) {
             return new ArrayList<Artist>();
         }
@@ -43,7 +30,7 @@ public class CacheUtils {
         else return artists;
     }
 
-    public static void setCachedArtists(String rawJson){
+    public static void setCache(String rawJson) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(cache);
             fileOutputStream.write(rawJson.getBytes());
@@ -52,5 +39,18 @@ public class CacheUtils {
             //???
             e.printStackTrace();
         }
+    }
+
+    public static String getCache() throws IOException {
+        //читаем файл кэша
+        //try with resources не работает на старых андройдах
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(cache));
+        String line;
+        String cache = "";
+        while ((line = bufferedReader.readLine()) != null) {
+            cache += line;
+        }
+        bufferedReader.close();
+        return cache;
     }
 }

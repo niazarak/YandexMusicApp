@@ -9,7 +9,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.yandexmusicapp.utils.CacheUtils.setCachedArtists;
+import static com.yandexmusicapp.utils.CacheUtils.setCache;
 
 public class ServiceGenerator {
     //вспомогательный класс для генерации ретрофит сервиса
@@ -32,7 +32,7 @@ public class ServiceGenerator {
                 Response response = chain.proceed(chain.request());
                 String rawJson = response.body().string();
                 //сохраняем
-                setCachedArtists(rawJson);
+                setCache(rawJson);
                 // делаем новый запрос
                 return response.newBuilder()
                         .body(ResponseBody.create(response.body().contentType(), rawJson)).build();

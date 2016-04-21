@@ -42,6 +42,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHold
     public boolean isEmpty(){
         return filteredArtists.size() == 0;
     }
+
     public boolean isAbsolutelyEmpty(){
         return allArtists.size() == 0;
     }
@@ -135,7 +136,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHold
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(),ArtistActivity.class);
                 // передаем в следующий активити выбранного артиста
-                intent.putExtra(ARTIST, artist)
+                intent.putExtra(ARTIST, artist);
                 ((Activity) v.getContext()).startActivityForResult(intent,1);
             }
         });

@@ -30,7 +30,7 @@ import static com.yandexmusicapp.Application.POSITION;
 import static com.yandexmusicapp.Application.QUERY;
 import static com.yandexmusicapp.Application.SORT;
 import static com.yandexmusicapp.utils.CacheUtils.getCachedArtists;
-import static com.yandexmusicapp.utils.CacheUtils.setCachedArtists;
+import static com.yandexmusicapp.utils.CacheUtils.setCache;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             searchView.setQuery(currentQuery,false);
             artistsList.getLayoutManager().scrollToPosition(currentPosition);
         }
+
         sortItem = menu.findItem(R.id.sort);
         if(aa.sortedAlphabetically) sortItem.setIcon(android.R.drawable.ic_menu_sort_alphabetically) ;
         else sortItem.setIcon(android.R.drawable.ic_menu_sort_by_size);
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 break;
             }
             case R.id.clear: {
-                setCachedArtists("");
+                setCache("");
                 Toast.makeText(MainActivity.this, R.string.cache_cleared, Toast.LENGTH_SHORT).show();
                 break;
             }
