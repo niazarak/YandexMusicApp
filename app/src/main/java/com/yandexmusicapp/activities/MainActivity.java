@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             @Override
             public void onFailure(Call<List<Artist>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, R.string.cache_cleared, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.cache_failed, Toast.LENGTH_SHORT).show();
                 //запрос не удался, проверяем, есть ли что-то в кэше
                 initCachedArtists();
                 swipeRefreshLayout.setRefreshing(false);

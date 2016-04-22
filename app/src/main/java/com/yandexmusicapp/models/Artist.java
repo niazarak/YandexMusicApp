@@ -96,7 +96,7 @@ public class Artist implements Serializable{
 
     //для вывода репертуара артиста одной строкой
     public String getRepertoire(){
-        return albums+" альбомов * "+tracks+" песен";
+        return albums + " альбомов, " + tracks + " песен";
     }
     /**
      *

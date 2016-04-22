@@ -25,9 +25,9 @@ import static com.yandexmusicapp.Application.ARTIST;
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHolder> {
 
     Context mainContext; // для Picasso
-    ArrayList<Artist> allArtists; // так как механизм фильтрации работает по принципу удаления
+    public ArrayList<Artist> allArtists; // так как механизм фильтрации работает по принципу удаления
     // ненужных элементов, то изначальные элементы нужно где-то хранить
-    ArrayList<Artist> filteredArtists; // вывода результата поиска (фильтрованный allArtists)
+    public ArrayList<Artist> filteredArtists; // вывода результата поиска (фильтрованный allArtists)
     public Boolean sortedAlphabetically; //дадим пользователю всего два списка - сортирован либо по алфавиту,
     // либо по количеству песен (выводить чистый ответ с сервера,
     // в котором артисты находятся в хаотичном порядке - плохой UX)
