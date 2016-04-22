@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     MenuItem sortItem;
     ArtistAdapter aa;
     YandexApi client;
-    FrameLayout emptyCache; // лейаут для пустого экрана (когда артисты не получены) *отныне он называется "сплэш"
-    FrameLayout emptySearch; // лейаут для пустого экрана (когда артисты не получены) *отныне он называется "сплэш"
-    Call<List<Artist>> call; //объект запроса (его лучше объявлять глобально, чтобы переиспользовать)
+    FrameLayout emptyCache; // лейаут пустого кэша
+    FrameLayout emptySearch; // лейаут пустого поиска
+    Call<List<Artist>> call; //объект запроса
     int currentPosition = 0;
     String currentQuery = "";
 
@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 break;
             }
             case R.id.clear: {
+                //чтобы вам удобно было тестить, наверно
                 setCache("");
                 Toast.makeText(MainActivity.this, R.string.cache_cleared, Toast.LENGTH_SHORT).show();
                 break;
@@ -162,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void initFreshArtists(){
-        // проверять соединение бесполезно
+        // проверять соединение бесполезно, за нас это сделают колбеки
         call = client.artists();
         call.enqueue(new Callback<List<Artist>>() {
             @Override
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         searchArtists();
         artistsList.setAdapter(aa);
         if(aa.isAbsolutelyEmpty()) {
-            //кэш пустой, показываем сплэш
+            //кэш пустой
             showEmptyCache();
         }
     }
@@ -202,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         showEmptySearch();
     }
 
-    private void showEmptySearch(){
+    private void showEmptySearch() {//если запрос не дал результатов
         if(aa.isEmpty() && emptyCache.getVisibility()!=View.VISIBLE){
             emptySearch.setVisibility(View.VISIBLE);
         }
@@ -210,7 +211,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             emptySearch.setVisibility(View.GONE);
         }
     }
-    private void showEmptyCache(){
+
+    private void showEmptyCache() {//если кэш пуст
         emptySearch.setVisibility(View.GONE);
         emptyCache.setVisibility(View.VISIBLE);
     }

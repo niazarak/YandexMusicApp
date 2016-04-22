@@ -94,7 +94,7 @@ public class ArtistActivity extends AppCompatActivity {
 
         relativeLayout = (RelativeLayout) findViewById(R.id.artist_layout);
 
-        if(artist.getLink()!=null){ //так как ссылки может не быть
+        if (artist.getLink() != null) { //так как ссылки на сайт может не быть
             Button btt = new Button(this);
             relativeLayout.addView(btt);
             RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) btt.getLayoutParams();

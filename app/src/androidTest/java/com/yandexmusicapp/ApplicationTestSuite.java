@@ -6,5 +6,5 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({CacheTest.class, AdapterTest.class})
-public class ApplicationTestSuite {
+public class ApplicationTestSuite {//запускает все тесты
 }
